@@ -105,7 +105,7 @@ def run_validation_job(resource):
         validation.report = json.dumps(report)
     else:
         validation.report = json.dumps(report)
-        if 'errors' in report and report['errors']: 
+        if 'errors' in report and report['errors']:
             validation.status = 'error'
             validation.error = {
                 'message': [str(err) for err in report['errors']]}

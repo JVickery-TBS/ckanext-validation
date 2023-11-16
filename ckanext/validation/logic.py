@@ -450,7 +450,8 @@ def resource_create(up_func, context, data_dict):
     t.check_access('resource_create', context, data_dict)
 
     for plugin in plugins.PluginImplementations(plugins.IResourceController):
-        plugin.before_create(context, data_dict)
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        plugin.before_resource_create(context, data_dict)
 
     if 'resources' not in pkg_dict:
         pkg_dict['resources'] = []
@@ -521,7 +522,8 @@ def resource_create(up_func, context, data_dict):
          })
 
     for plugin in plugins.PluginImplementations(plugins.IResourceController):
-        plugin.after_create(context, resource)
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        plugin.after_resource_create(context, resource)
 
     return resource
 
@@ -577,7 +579,8 @@ def resource_update(up_func, context, data_dict):
         data_dict['datastore_active'] = resource.extras['datastore_active']
 
     for plugin in plugins.PluginImplementations(plugins.IResourceController):
-        plugin.before_update(context, pkg_dict['resources'][n], data_dict)
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        plugin.before_resource_update(context, pkg_dict['resources'][n], data_dict)
 
     upload = uploader.get_resource_uploader(data_dict)
 
@@ -637,7 +640,8 @@ def resource_update(up_func, context, data_dict):
              'resource': resource})
 
     for plugin in plugins.PluginImplementations(plugins.IResourceController):
-        plugin.after_update(context, resource)
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        plugin.after_resource_update(context, resource)
 
     return resource
 

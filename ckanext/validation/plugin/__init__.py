@@ -160,6 +160,10 @@ to create the database tables:
             context["_resource_create_call"] = True
             return self._process_schema_fields(data_dict)
 
+    def before_resource_create(self, context, data_dict):
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        self.before_create(context, data_dict)
+
     def after_create(self, context, data_dict):
 
         is_dataset = self._data_dict_is_dataset(data_dict)
@@ -175,6 +179,10 @@ to create the database tables:
             # as there is always a previous `package_update` call that will
             # trigger the `before_update` and `after_update` hooks
             pass
+
+    def after_resource_create(self, context, data_dict):
+        # master uses new `_resource_` hooks (ckan-master branch only)
+        self.after_create(context, data_dict)
 
     def _data_dict_is_dataset(self, data_dict):
         return (
@@ -206,7 +214,8 @@ to create the database tables:
 
             _run_async_validation(resource[u'id'])
 
-    def before_update(self, context, current_resource, updated_resource):
+    def before_resource_update(self, context, current_resource, updated_resource):
+        # master uses new `_resource_` hooks (ckan-master branch only)
 
         updated_resource = self._process_schema_fields(updated_resource)
 
@@ -246,7 +255,8 @@ to create the database tables:
 
         return updated_resource
 
-    def after_update(self, context, data_dict):
+    def after_resource_update(self, context, data_dict):
+        # master uses new `_resource_` hooks (ckan-master branch only)
 
         is_dataset = self._data_dict_is_dataset(data_dict)
 
