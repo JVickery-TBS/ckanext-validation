@@ -5,6 +5,7 @@ import uuid
 import logging
 
 from sqlalchemy import Column, Unicode, DateTime
+from sqlalchemy.exc import UnboundExecutionError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
@@ -33,10 +34,17 @@ class Validation(Base):
 
 
 def create_tables():
-    Validation.__table__.create()
-
-    log.info(u'Validation database tables created')
+    try:
+        Validation.__table__.create()
+        log.info(u'Validation database tables created')
+    except UnboundExecutionError:
+        log.info(u'Working outside of Database connection context')
+        pass
 
 
 def tables_exist():
-    return Validation.__table__.exists()
+    try:
+        return Validation.__table__.exists()
+    except UnboundExecutionError:
+        log.info(u'Working outside of Database connection context')
+        return True

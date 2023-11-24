@@ -3,7 +3,7 @@
 from ckantoolkit import config
 
 # TODO: configurable
-DEFAULT_SUPPORTED_FORMATS = [u'csv', u'xls', u'xlsx']
+DEFAULT_SUPPORTED_FORMATS = [u'csv', u'xls', u'xlsx', u'CSV']
 
 
 SUPPORTED_FORMATS = config.get(
