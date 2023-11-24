@@ -175,10 +175,7 @@ to create the database tables:
             for resource in data_dict.get(u'resources', []):
                 self._handle_validation_for_resource(context, resource)
         else:
-            # This is a resource. Resources don't need to be handled here
-            # as there is always a previous `package_update` call that will
-            # trigger the `before_update` and `after_update` hooks
-            pass
+            self._handle_validation_for_resource(context, data_dict)
 
     def after_resource_create(self, context, data_dict):
         # master uses new `_resource_` hooks (ckan-master branch only)
