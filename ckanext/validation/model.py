@@ -9,7 +9,7 @@ from sqlalchemy.exc import UnboundExecutionError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
-from ckan.model.meta import metadata
+from ckan.model.meta import metadata, engine
 
 log = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ def make_uuid():
     return str(uuid.uuid4())
 
 
-Base = declarative_base(metadata=metadata)
+Base = declarative_base(bind=engine, metadata=metadata)
 
 
 class Validation(Base):
@@ -34,17 +34,9 @@ class Validation(Base):
 
 
 def create_tables():
-    try:
-        Validation.__table__.create()
-        log.info(u'Validation database tables created')
-    except UnboundExecutionError:
-        log.info(u'Working outside of Database connection context')
-        pass
+    Validation.__table__.create()
+    log.info(u'Validation database tables created')
 
 
 def tables_exist():
-    try:
-        return Validation.__table__.exists()
-    except UnboundExecutionError:
-        log.info(u'Working outside of Database connection context')
-        return True
+    return Validation.__table__.exists()
