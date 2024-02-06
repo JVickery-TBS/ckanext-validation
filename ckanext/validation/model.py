@@ -5,7 +5,6 @@ import uuid
 import logging
 
 from sqlalchemy import Column, Unicode, DateTime
-from sqlalchemy.exc import UnboundExecutionError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
