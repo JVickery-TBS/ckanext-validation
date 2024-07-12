@@ -4,11 +4,13 @@ import datetime
 import uuid
 import logging
 
-from sqlalchemy import Column, Unicode, DateTime
+from sqlalchemy import Column, Unicode, DateTime, engine_from_config
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSON
 
-from ckan.model.meta import metadata, engine
+from ckan.model import init_model
+from ckan.model.meta import metadata
+from ckan.plugins.toolkit import config
 
 log = logging.getLogger(__name__)
 
@@ -17,6 +19,8 @@ def make_uuid():
     return str(uuid.uuid4())
 
 
+engine = engine_from_config(config)
+init_model(engine)
 Base = declarative_base(bind=engine, metadata=metadata)
 
 
